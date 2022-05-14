@@ -13,7 +13,6 @@ const render = require('./src/page-template.js');
 const teamMembers = [];
 const idArray = [];
 
-// Inform user of usage
 console.log(
   'Team Profile Test'
 );
@@ -26,7 +25,7 @@ function appMenu() {
         {
           type: 'input',
           name: 'managerName',
-          message: "What is the team manager's name?",
+          message: "What is manager's name?",
           validate: (answer) => {
             if (answer !== '') {
               return true;
@@ -90,11 +89,11 @@ function appMenu() {
         {
           type: 'list',
           name: 'memberChoice',
-          message: 'Which type of team member would you like to add?',
+          message: 'Which team is this belong to?',
           choices: [
             'Engineer',
             'Intern',
-            "I don't want to add any more team members",
+            "No more team members",
           ],
         },
       ])
@@ -155,15 +154,7 @@ function appMenu() {
           },
         },
         {
-          type: 'input',
-          name: 'engineerGithub',
-          message: "What is your engineer's GitHub username?",
-          validate: (answer) => {
-            if (answer !== '') {
-              return true;
-            }
-            return 'Please enter at least one character.';
-          },
+         
         },
       ])
       .then((answers) => {
@@ -222,15 +213,7 @@ function appMenu() {
           },
         },
         {
-          type: 'input',
-          name: 'internSchool',
-          message: "What is your intern's school?",
-          validate: (answer) => {
-            if (answer !== '') {
-              return true;
-            }
-            return 'Please enter at least one character.';
-          },
+          // 
         },
       ])
       .then((answers) => {
@@ -238,7 +221,7 @@ function appMenu() {
           answers.internName,
           answers.internId,
           answers.internEmail,
-          answers.internSchool
+         
         );
         teamMembers.push(intern);
         idArray.push(answers.internId);
@@ -246,15 +229,9 @@ function appMenu() {
       });
   }
 
-  function buildTeam() {
-    // Create the output directory if the dist path doesn't exist
-    if (!fs.existsSync(DIST_DIR)) {
-      fs.mkdirSync(DIST_DIR);
-    }
-    fs.writeFileSync(distPath, render(teamMembers), 'utf-8');
-  }
-
-  createManager();
+  function GenerateTeam() {
+    
+    If (let i = 0;)
 }
 
 appMenu();

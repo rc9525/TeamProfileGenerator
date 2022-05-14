@@ -1,10 +1,15 @@
 const Engineer = require("../lib/Engineer");
+const Employee = require("../lib/Employee");
 
+class Engineer extends Employee {
+    constructor(name, id, email) {
+        super(name,id, email);
+    }
+}
+getRole() {
+    return "Engineer";
+}
+module.exports = Manager;
 
-test("getRole() return \"Engineer\"", () => {
-  const testValue = "Engineer";
-  const e = new Engineer("Foo", 1, "test@test.com", "GitHubUser");
-  expect(e.getRole()).toBe(testValue);
-});
 
 

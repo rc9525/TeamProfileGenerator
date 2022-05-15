@@ -5,233 +5,124 @@ const inquirer = require('inquirer');
 const path = require('path');
 const fs = require('fs');
 
-const DIST_DIR = path.resolve(__dirname, 'dist');
-const distPath = path.join(DIST_DIR, 'team.html');
+const generate = require('./src/generateHTML');
 
-const render = require('./src/page-template.js');
+const teamArray =[];
 
-const teamMembers = [];
-const idArray = [];
-
-console.log(
-  'Team Profile Test'
-);
-
-function appMenu() {
-  function createManager() {
-    console.log('Your team');
-    inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'managerName',
-          message: "What is manager's name?",
-          validate: (answer) => {
-            if (answer !== '') {
-              return true;
-            }
-            return 'Please enter at least one character.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'managerId',
-          message: "What is the team manager's id?",
-          validate: (answer) => {
-            const pass = answer.match(/^[1-9]\d*$/);
-            if (pass) {
-              return true;
-            }
-            return 'Please enter a positive number greater than zero.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'managerEmail',
-          message: "What is the team manager's email?",
-          validate: (answer) => {
-            const pass = answer.match(/\S+@\S+\.\S+/);
-            if (pass) {
-              return true;
-            }
-            return 'Please enter a valid email address.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'managerOfficeNumber',
-          message: "What is the team manager's office number?",
-          validate: (answer) => {
-            const pass = answer.match(/^[1-9]\d*$/);
-            if (pass) {
-              return true;
-            }
-            return 'Please enter a positive number greater than zero.';
-          },
-        },
-      ])
-      .then((answers) => {
-        const manager = new Manager(
-          answers.managerName,
-          answers.managerId,
-          answers.managerEmail,
-          answers.managerOfficeNumber
-        );
-        teamMembers.push(manager);
-        idArray.push(answers.managerId);
-        createTeam();
-      });
-  }
-
-  function createTeam() {
-    inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'memberChoice',
-          message: 'Which team is this belong to?',
-          choices: [
-            'Engineer',
-            'Intern',
-            "No more team members",
-          ],
-        },
-      ])
-      .then((userChoice) => {
-        switch (userChoice.memberChoice) {
-          case 'Engineer':
-            addEngineer();
-            break;
-          case 'Intern':
-            addIntern();
-            break;
-          default:
-            buildTeam();
-        }
-      });
-  }
-
-  function addEngineer() {
-    inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'engineerName',
-          message: "What is your engineer's name?",
-          validate: (answer) => {
-            if (answer !== '') {
-              return true;
-            }
-            return 'Please enter at least one character.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'engineerId',
-          message: "What is your engineer's id?",
-          validate: (answer) => {
-            const pass = answer.match(/^[1-9]\d*$/);
-            if (pass) {
-              if (idArray.includes(answer)) {
-                return 'This ID is already taken. Please enter a different number.';
-              } else {
-                return true;
-              }
-            }
-            return 'Please enter a positive number greater than zero.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'engineerEmail',
-          message: "What is your engineer's email?",
-          validate: (answer) => {
-            const pass = answer.match(/\S+@\S+\.\S+/);
-            if (pass) {
-              return true;
-            }
-            return 'Please enter a valid email address.';
-          },
-        },
-        {
-         
-        },
-      ])
-      .then((answers) => {
-        const engineer = new Engineer(
-          answers.engineerName,
-          answers.engineerId,
-          answers.engineerEmail,
-          answers.engineerGithub
-        );
-        teamMembers.push(engineer);
-        idArray.push(answers.engineerId);
-        createTeam();
-      });
-  }
-
-  function addIntern() {
-    inquirer
-      .prompt([
-        {
-          type: 'input',
-          name: 'internName',
-          message: "What is your intern's name?",
-          validate: (answer) => {
-            if (answer !== '') {
-              return true;
-            }
-            return 'Please enter at least one character.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'internId',
-          message: "What is your intern's id?",
-          validate: (answer) => {
-            const pass = answer.match(/^[1-9]\d*$/);
-            if (pass) {
-              if (idArray.includes(answer)) {
-                return 'This ID is already taken. Please enter a different number.';
-              } else {
-                return true;
-              }
-            }
-            return 'Please enter a positive number greater than zero.';
-          },
-        },
-        {
-          type: 'input',
-          name: 'internEmail',
-          message: "What is your intern's email?",
-          validate: (answer) => {
-            const pass = answer.match(/\S+@\S+\.\S+/);
-            if (pass) {
-              return true;
-            }
-            return 'Please enter a valid email address.';
-          },
-        },
-        {
-          // 
-        },
-      ])
-      .then((answers) => {
-        const intern = new Intern(
-          answers.internName,
-          answers.internId,
-          answers.internEmail,
-         
-        );
-        teamMembers.push(intern);
-        idArray.push(answers.internId);
-        createTeam();
-      });
-  }
-
-  function GenerateTeam() {
-    
-    If (let i = 0;)
+const teamMngr = () => {
+    return(
+        inquirer
+        .prompt([
+            {
+                // Prompts for manager's name"
+                type: 'input',
+                message: 'Enter team manager name.',
+                name: 'name',
+            },
+            {
+                // Prompts for manager's employee ID"
+                type: 'input',
+                message: 'Enter employee ID ',
+                name: 'id',
+            },
+                //prompt for manager's email address
+            {
+                type: 'input',
+                message: "Enter manager's email address",
+                name: 'email',
+            },
+                //prompt for manager's office number
+            {
+                type: 'input',
+                message: "Enter manager's office number",
+                name: 'officeNumber',
+            },
+        ])
+    )
+    .then(data => {
+        const manager= new Manager (data.name, data.id, data.email, data.officeNumber);
+        teamArray.push(manager);
+    })
 }
 
-appMenu();
+const addMember = () => {
+    return(
+        inquirer
+        .prompt([
+            {
+            // Add another employee or finish team"
+                type: 'list',
+                message: 'Would you like to add another employee, or finish building your team?',
+                name: 'menu',
+                choices: ['add Engineer', 'add Intern', 'finish building team']
+            },
+            //if select engineer option (name, email, id, and github)
+            {
+                type: 'input',
+                message: "Enter name",
+                name: 'name',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
+            },
+            {
+                type: 'input',
+                message: "Enter email",
+                name: 'email',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
+            },
+            {
+                type: 'input',
+                message: "Enter employee id",
+                name: 'id',
+                when: (input) => input.menu === "add Engineer" || input.menu === "add Intern",
+            },
+            {
+                type: 'input',
+                message: "Enter engineer's Github username",
+                name: 'github',
+                when: (input) => input.menu === "add Engineer",
+            },
+            //if select intern option (name, email, id, and school)
+            {
+                type: 'input',
+                message: "Enter intern's university/school",
+                name: 'school',
+                when: (input) => input.menu === "add Intern",
+            },
+        ])
+    )
+    //When select to finish team
+    .then(
+       data => {
+           console.log (data.menu)
+            if (data.menu === 'add Engineer'){
+                const engineer = new Engineer (data.name, data.id, data.email, data.github)
+                teamArray.push(engineer)
+                addMember();
+            } else if (data.menu === 'add Intern'){
+                const intern = new Intern (data.name, data.id, data.email, data.school)
+                teamArray.push(intern)
+                addMember();
+            } else {
+                console.log(teamArray);
+                genFile(generateHTML(teamArray));
+            }
+        }
+    )
+};
+
+const genFile = data => {
+//  console.log(promptData);  
+
+    fs.writeFile('./dist/index.html', data,
+    err => {
+        if (err) {
+            console.log(err);
+        } console.log('Your team is built!')
+    })
+}
+
+teamMngr()
+.then(addMember)
+.catch(err => {
+    console.log (err);
+})
